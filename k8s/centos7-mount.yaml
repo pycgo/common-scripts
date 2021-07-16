@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: centos7
+  labels:
+    app: centos7
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: centos7
+  template:
+    metadata:
+      labels:
+        app: centos7
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - centos7
+              topologyKey: kubernetes.io/hostname
+    spec:
+      containers:
+        - command:
+            - sh
+            - -c
+            - while true;do echo hello docker;sleep 10;done
+          name: centos7
+          image: centos:7.9.2009
+          volumeMounts:
+          - name: hadoop
+            mountPath: /mnt
+      nodeSelector:
+        offline: "yes"
+      volumes:
+      - name: hadoop
+        hostPath:
+          path: /opt/hadoop/conf/production
