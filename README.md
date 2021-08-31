@@ -31,3 +31,11 @@
 ​ 场景应对：azure的k8s服务，节点不可登录，这个时候起pods去挂载节点的吗目录，采用host模式，
 
 ​ 拷贝文件到pods挂载的目录，即文件拷贝到了 node本地
+
+## c program
+
+1、https://github.com/pycgo/common-scripts/blob/master/c/sum.c
+
+​ 实现一个计算m~n（m<n）之间所有整数的和的简单函数。
+
+​ 如输入源-5 8 结果为21
