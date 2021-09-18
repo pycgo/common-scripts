@@ -24,6 +24,10 @@
 
 ​ 解压zip包的一个例子
 
+2、https://github.com/pycgo/common-scripts/blob/master/python/getMysqlTable.py
+
+​ 查询导出mysql数据的例子
+
 ## K8s
 
 1、https://github.com/xlovepython/common-scripts/blob/master/k8s/centos7-mount.yaml
