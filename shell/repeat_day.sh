@@ -5,5 +5,5 @@ interval_day=$((date_now-first_date))
 if (($interval_day > 1728000 ))
 then
     echo "yes" #已换成需要执行的语句
-    sed -i "s/^first_date=.*/first_date=$date_now/g" aaa.sh
+    sed -i "s/^first_date=.*/first_date=$date_now/g" repeat_day.sh
 fi
