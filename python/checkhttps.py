@@ -14,6 +14,7 @@ def args_pare():
     parser = argparse.ArgumentParser(description='返回网站证书剩余时间')
     parser.add_argument('--fireday', type=int, nargs='?', default=20,help='天数,如果到期时间小于这个值,就告警')
     parser.add_argument('--webotkey', type=str, nargs='?', default='64c6exx-518e-xxx-xxx-xxx',help='企业微信机器人key')
+    parser.add_argument('--path',type=str, nargs='?', default='domain.txt',help='域名文件路径。默认当前路径domain.txt,可以全覆盖')
     parameter = parser.parse_args()
     return parameter
 
@@ -70,7 +71,7 @@ if __name__ == '__main__':
     domain_list = []
     content = []
     parameter = args_pare()
-    with open("domain.txt",'r',encoding="utf-8") as f:
+    with open(parameter.path,'r',encoding="utf-8") as f:
         for line in f:
             hostname = line.strip()
             domain_list.append(hostname)
