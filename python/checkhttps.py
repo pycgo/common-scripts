@@ -12,11 +12,13 @@ import argparse
 
 
 #设置命令行可选参数
+# --可选参数 不加--必选参数
 def args_pare():
     parser = argparse.ArgumentParser(description='返回网站证书剩余时间')
-    parser.add_argument('--fireday', type=int, nargs='?', default=20,help='天数,如果到期时间小于这个值,就告警')
-    parser.add_argument('--webotkey', type=str, nargs='?', default='64c6exx-518e-xxx-xxx-xxx',help='企业微信机器人key')
+    parser.add_argument('--fire_day', type=int, nargs='?', default=2000,help='天数,如果到期时间小于这个值,就告警')
+    parser.add_argument('webot_key', type=str, nargs='?', default='',help='企业微信机器人key')
     parser.add_argument('--path',type=str, nargs='?', default='domain.txt',help='域名文件路径。默认当前路径domain.txt,可以全覆盖')
+    parser.add_argument("--log", action='store_true',help='是否打印日志。默认不加参数不打印')
     parameter = parser.parse_args()
     return parameter
 
@@ -66,7 +68,7 @@ def sendWechatBot(content,key):
     responde = requests.post(
         url='https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=' + key,
         headers=headers, json=data)
-    print(responde)
+    return responde
 
 
 if __name__ == '__main__':
@@ -82,14 +84,18 @@ if __name__ == '__main__':
         expire_time = get_expire_day(hostname)
 
         if isinstance(expire_time,datetime):
-
             expire_days = (expire_time - datetime.now()).days
         else:
             expire_days = ''
 
-        compare_day = parameter.fireday
+        compare_day = parameter.fire_day
         if expire_days < compare_day:
             tmp_data = hostname + '： ' + '证书剩余' + str(expire_days) + '天'
             content.append(tmp_data)
-    if len(content) > 0:
-        sendWechatBot('\n'.join(content),parameter.webotkey)
+
+        # 是否打印日志
+        if parameter.log:
+            print('域名：{0},到期时间：{1},剩余{2}天'.format(hostname,expire_time,expire_days))
+
+    if len(content) > 0 and parameter.webot_key != '':
+        sendWechatBot('\n'.join(content),parameter.webot_key)
