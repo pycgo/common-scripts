@@ -39,7 +39,6 @@ spec:
   - apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
-      creationTimestamp: null
       name: data
     spec:
       accessModes:
