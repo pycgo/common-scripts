@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mqbroker
+spec:
+  serviceName: mqbroker
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqbroker
+  template:
+    metadata:
+      labels:
+        app: mqbroker
+    spec:
+      containers:
+      - name: mqbroker
+        image: registry.aliyuncs.com/opsflow/rocketmq:4.9.4
+        command: ["sh","/home/rocketmq/rocketmq-4.9.4/bin/mqbroker", "-n","rocketmq:9876"]
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: JAVA_OPT
+          value: "-server -XX:ParallelGCThreads=1 -Xms1g -Xmx1g -Xmn512m"
+          #value: "-XX:MaxRAMPercentage=80.0"
+        ports:
+        - containerPort: 10909
+        - containerPort: 10911
+        resources:
+          requests:
+            memory: 128Mi
+        volumeMounts:
+          - mountPath: /root/logs
+            name: data
+            subPath: mq-brokeroptlogs
+          - mountPath: /data/rocketmq
+            name: data
+            subPath: mq-brokeroptstore
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: openebs-hostpath
+      volumeMode: Filesystem
