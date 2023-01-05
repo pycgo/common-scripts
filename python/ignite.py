@@ -9,18 +9,18 @@ test_create_table = '''CREATE TABLE test (
 )'''
 
 test_data = [
-    # [
-    #     'snap1', 'United States1',
-    # ],
+    [
+        'snap1', 'United States1',
+    ],
     [
         'snap2', 'CHINA1',
     ],
-    # [
-    #     'new1', 'newdata1',
-    # ],
-    # [
-    #     'new2', 'newdata2',
-    # ],
+    [
+        'new1', 'newdata1',
+    ],
+    [
+        'new2', 'newdata2',
+    ],
 ]
 
 DROP_TABLE_QUERY = '''DROP TABLE {} IF EXISTS'''
@@ -40,17 +40,17 @@ with client.connect('10.2.17.192', 31138):
     print(cashe)
 
     #建表
-    # for query in [
-    #     test_create_table,
-    # ]:
-    #     client.sql(query)
+    for query in [
+        test_create_table,
+    ]:
+        client.sql(query)
 
     # #插入数据
-    # for row in test_data:
-    #     client.sql(test_insert_query, query_args=row)
-    # update_sql = '''UPDATE test SET Name = 'update_name' WHERE Code = 'snap2';'''
-    # delete_sql = '''DELETE FROM test  WHERE Code = 'snap2';'''
-    # result = client.sql(delete_sql)
+    for row in test_data:
+        client.sql(test_insert_query, query_args=row)
+    update_sql = '''UPDATE test SET Name = 'update_name' WHERE Code = 'snap2';'''
+    delete_sql = '''DELETE FROM test  WHERE Code = 'snap2';'''
+    result = client.sql(delete_sql)
     #查询数据
     SQL = '''select * from test'''
 
@@ -60,15 +60,13 @@ with client.connect('10.2.17.192', 31138):
             print(row)
 
     # clean up
-    # for table_name in [
-    #     test_table,
-    # ]:
-    #     result = client.sql(DROP_TABLE_QUERY.format(table_name))
+    for table_name in [
+        test_table,
+    ]:
+        result = client.sql(DROP_TABLE_QUERY.format(table_name))
 
 
-    # for table_name in [
-    #     test_table,
-    # ]:
-    #     result = client.sql(DROP_TABLE_DATA_QUERY.format(table_name))
-            
-            
+    for table_name in [
+        test_table,
+    ]:
+        result = client.sql(DROP_TABLE_DATA_QUERY.format(table_name))
