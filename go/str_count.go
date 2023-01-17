@@ -11,13 +11,15 @@ func main() {
 
 	//循环读取 index不用 丢入_  c升级ascii码 需要string 转一下
 	for _, c := range str1 {
-		//if _, ok := map[key]; ok {
-		//    // 存在
-		//}
-		// 
-		//if _, ok := map[key]; !ok {
-		//    // 不存在
-		//}
+		/*
+		if _, ok := map[key]; ok {
+		     存在
+		}
+		 
+		if _, ok := map[key]; !ok {
+		     不存在
+		}
+		*/
 		if _, ok := map1[string(c)]; ok {
 			map1[string(c)] = map1[string(c)] + 1
 		} else {
