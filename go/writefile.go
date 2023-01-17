@@ -7,7 +7,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"reflect"
 )
 
 func main() {
@@ -15,7 +14,6 @@ func main() {
 }
 
 func argsWriteFile(args []string) {
-	fmt.Println(args, reflect.TypeOf(args))
 	file, err := os.OpenFile("bbb.txt", os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("文件打开失败", err)
