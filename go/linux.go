@@ -29,6 +29,12 @@ func sshLinux(privateKeyPath string) string {
 		},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
+	// user passwd
+	//config := &ssh.ClientConfig{
+	//	User: "root",
+	//	Auth:            []ssh.AuthMethod{ssh.Password("123456")},
+	//	HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+	//}
 
 	// Connect to the remote server and perform the SSH handshake.
 
