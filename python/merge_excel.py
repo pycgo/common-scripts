@@ -22,8 +22,7 @@ def file_list(path):
 def handel_excle():
     path = '.'
     filelist = file_list(path)
-    
-	  #新建要存结果的excle，可以自己改其他路径
+    #新建要存结果的excle，可以自己改其他路径
     workbook = xlsxwriter.Workbook('chart.xlsx')
     worksheet = workbook.add_worksheet()
     for file in filelist:
