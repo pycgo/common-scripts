@@ -106,6 +106,7 @@ if __name__ == "__main__":
     if len(new_groups) == 0 and len(old_groups) != 0:
         for key,value in old_groups.items():
             sendDingBot(access_token,secret, key+ ',' + ','.join(list(value)),warning=0)
+        shutil.copy(new_path, old_path)
     if len(new_groups) != 0 and len(old_groups) == 0:
         # 1发告警  cp new.txt old.txt
         for key,value in new_groups.items():
