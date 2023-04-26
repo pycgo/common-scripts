@@ -1,3 +1,6 @@
+/*
+文件片段 ,"position":{"file":"mysql-bin.000369","pos":4,"snapshot":true},"databaseName":
+*/
 package main
 
 import (
