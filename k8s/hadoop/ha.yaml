@@ -197,7 +197,7 @@ data:
       </property>
       <property>
         <name>dfs.namenode.rpc-address.linkflow.nn2</name>
-        <value>hadoop-hdfs-namenode-0.hadoop-hdfs-namenode.linkflow.svc.cluster.local:8020</value>
+        <value>hadoop-hdfs-namenode-1.hadoop-hdfs-namenode.linkflow.svc.cluster.local:8020</value>
       </property>
       <property>
         <name>dfs.namenode.rpc-address.linkflow.nn1</name>
