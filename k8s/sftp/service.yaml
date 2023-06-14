@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sftpgo
+  labels:
+    app: sftpgo
+spec:
+  type: ClusterIP
+  ports:
+    - name: sftp
+      port: 22
+      targetPort: sftp
+      protocol: TCP
+      appProtocol: sftp-ssh
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+      appProtocol: http
+    - name: telemetry
+      port: 10000
+      targetPort: telemetry
+      protocol: TCP
+      appProtocol: http
+  selector:
+    app: sftpgo
