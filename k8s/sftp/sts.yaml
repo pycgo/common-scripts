@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: sftpgo
+  name: sftpgo
+  namespace: linkflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sftpgo
+  template:
+    metadata:
+      labels:
+        app: sftpgo
+    spec:
+      containers:
+      - args:
+        - sftpgo
+        - serve
+        env:
+        - name: TZ
+          value: Asia/Shanghai
+        - name: SFTPGO_SFTPD__BINDINGS__0__PORT
+          value: "2022"
+        - name: SFTPGO_SFTPD__BINDINGS__0__ADDRESS
+          value: 0.0.0.0
+        - name: SFTPGO_HTTPD__BINDINGS__0__PORT
+          value: "8080"
+        - name: SFTPGO_HTTPD__BINDINGS__0__ADDRESS
+          value: 0.0.0.0
+        - name: SFTPGO_TELEMETRY__BIND_PORT
+          value: "10000"
+        - name: SFTPGO_TELEMETRY__BIND_ADDRESS
+          value: 0.0.0.0
+        image: ghcr.io/drakkan/sftpgo:v2.5.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: telemetry
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: sftpgo
+        ports:
+        - containerPort: 2022
+          name: sftp
+          protocol: TCP
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 10000
+          name: telemetry
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: telemetry
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/sftpgo
+          name: data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: openebs-hostpath
+      volumeMode: Filesystem
