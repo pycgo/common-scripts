@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jartest
+  name: jartest
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: jartest
+  template:
+    metadata:
+      labels:
+        app: jartest
+    spec:
+      containers:
+        - args:
+            - -Dfile.encoding=UTF-8
+            - -Xms$(Xms)
+            - -Xmx$(Xmx)
+            - -Xmn$(Xmn)
+            - -XX:MetaspaceSize=$(METASPACESIZE)
+            - -XX:MaxMetaspaceSize=$(MAXMETASPACESIZE)
+            - -jar
+            - /app/demo-SNAPSHOT.jar
+          command:
+            - java
+          env:
+            - name: Xms
+              value: 512m
+            - name: Xmx
+              value: 512m
+            - name: Xmn
+              value: 192m
+            - name: METASPACESIZE
+              value: 256m
+            - name: MAXMETASPACESIZE
+              value: 256m
+          image: registry.aliyuncs.com/netflow/jartest
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sleep
+                  - "30"
+          name: jdsso
+          ports:
+            - containerPort: 8300
+              protocol: TCP
+          resources:
+            limits:
+              memory: 1536Mi
+            requests:
+              memory: 512Mi
+      terminationGracePeriodSeconds: 600
