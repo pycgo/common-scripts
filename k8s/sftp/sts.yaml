@@ -34,7 +34,7 @@ spec:
           value: "10000"
         - name: SFTPGO_TELEMETRY__BIND_ADDRESS
           value: 0.0.0.0
-        image: registry.aliyuncs.com/netflow/sftpgo:v2.5.1
+        image: registry.aliyuncs.com/netflow/sftpgo:v2.5.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
