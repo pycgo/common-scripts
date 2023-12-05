@@ -83,5 +83,7 @@ if __name__ == "__main__":
         #在old里面找不到记录的 超过的warning_num 要发
         else:
             if new_groups[group] > warning_num:
+                c.execute("INSERT INTO LAG (GROUPNAME,LAG,COUNT) VALUES (?,?,?)", (group, new_groups.get(group), 0))
+                conn.commit()
                 send_robot(group, new_groups.get(group), 1, parameter.webot_key, parameter.env)
     conn.close()
