@@ -1,3 +1,6 @@
+/*
+解析从hdfs下载下来的parquet类型的文件
+*/
 import pandas as pd
 import os
 
