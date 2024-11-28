@@ -1,3 +1,10 @@
+'''
+多张图片按顺序合成一个pdf
+每张图片就按数字编号
+依赖
+pip install pillow reportlab
+'''
+
 from PIL import Image
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
