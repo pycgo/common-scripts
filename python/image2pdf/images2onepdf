@@ -1,0 +1,48 @@
+from PIL import Image
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import os
+import uuid
+
+def images_to_pdf(image_paths, output_pdf):
+    c = canvas.Canvas(output_pdf, pagesize=letter)
+    width, height = letter  # A4纸的尺寸
+
+    for root, dirs, files in os.walk(image_paths):
+        for name in files:
+            img = Image.open(os.path.join(root,name))
+            img_width, img_height = img.size
+
+            # 计算图片在页面上的位置
+            if img_width > img_height:  # 横向图片
+                ratio = width / img_width
+                img_width *= ratio
+                img_height *= ratio
+                x = 0
+                y = (height - img_height) / 2
+            else:  # 纵向图片
+                ratio = height / img_height
+                img_width *= ratio
+                img_height *= ratio
+                x = (width - img_width) / 2
+                y = 0
+
+            # 生成唯一的临时文件名
+            temp_file = f'temp_{uuid.uuid4()}.png'
+            img.save(temp_file, 'PNG')
+            c.drawImage(temp_file, x, y, width=img_width, height=img_height)
+
+            # 添加新一页
+            c.showPage()
+
+            # 删除临时文件
+            os.remove(temp_file)
+
+    # 保存 PDF 文件
+    c.save()
+
+
+# 示例使用
+image_paths = 'images'
+output_pdf = 'output.pdf'
+images_to_pdf(image_paths, output_pdf)
